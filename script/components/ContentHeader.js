@@ -20,7 +20,7 @@ export default class ContentHeader extends HTMLElement {
             ${name} > h1 {
                 display: inline;
                 margin: 0px;
-                color: ${utils.css_transparent(utils.pallette.primary0, 65)};
+                color: ${utils.css_transparent(utils.palette.primary0, 65)};
                 font-weight: 100;
                 font-size: 2.5rem;
                 letter-spacing: 5%;
@@ -30,7 +30,7 @@ export default class ContentHeader extends HTMLElement {
                 display: inline;
                 margin: 0px;
                 margin-inline-start: 2rem;
-                color: ${utils.css_transparent(utils.pallette.primary0, 20)};
+                color: ${utils.css_transparent(utils.palette.primary0, 20)};
                 font-weight: 100;
                 font-size: 1.5rem;
                 letter-spacing: 5%;
@@ -39,13 +39,13 @@ export default class ContentHeader extends HTMLElement {
             ${name} > p {
                 display: inline;
                 margin: 0px;
-                color: ${utils.css_transparent(utils.pallette.primary0, 50)};
+                color: ${utils.css_transparent(utils.palette.primary0, 50)};
                 font-size: 1.125rem;
                 letter-spacing: 2.5%;
             }
                 
             ${name} > .header-content-divide {
-                background-color: ${utils.css_transparent(utils.pallette.primary0, 20)};
+                background-color: ${utils.css_transparent(utils.palette.primary0, 20)};
                 margin-top: .75rem;
                 margin-bottom: 1.75rem;
                 height: 1px;
