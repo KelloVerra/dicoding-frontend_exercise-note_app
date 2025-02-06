@@ -2,13 +2,6 @@ import * as utils from '../utils.js';
 
 
 const name = 'note-item';
-const palette = [
-    ["#A200CB", "#FDB4B5", "#FB8AB3"],
-    ["#1A00FF", "#A0D3F8", "#90AEF9"],
-    ["#E91B00", "#FFE5AD", "#FFC09E"],
-    ["#FFE5AD", "", ""],
-    ["#FFE5AD", "", ""],
-];
 export default class NoteItem extends HTMLElement {
 
     constructor() {
@@ -26,7 +19,7 @@ export default class NoteItem extends HTMLElement {
 
     render() {
 
-        const chosen_palette = palette[this._palette];
+        const chosen_palette = utils.note_palette[this._palette];
 
         const style = document.createElement('style');
         style.textContent = `

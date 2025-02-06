@@ -4,10 +4,19 @@
 export const fontfamily = '"Convergence",sans-serif';
 
 export const palette = {
-    'primary0': '#1A00FF',
-    'secondary0': '#FFFFFF',
-    'secondary1': '#EBF5F8',
+  'primary0': '#1A00FF',
+  'secondary0': '#FFFFFF',
+  'secondary1': '#EBF5F8',
+  'overlay': '#111624',
 };
+
+export const note_palette = [
+  ["#A200CB", "#FDB4B5", "#FB8AB3"],
+  ["#1A00FF", "#A0D3F8", "#90AEF9"],
+  ["#E91B00", "#FFE5AD", "#FFC09E"],
+  ["#FFE5AD", "", ""],
+  ["#FFE5AD", "", ""],
+];
 
 export const notes = [];
 
@@ -167,7 +176,7 @@ export function getNotes(archived) {
  * @returns {String} of unique id
  */
 export function unique() {
-    return Number(new Date());
+    return btoa(Number(new Date())).replaceAll('=','');
 }
 
 /**
@@ -175,9 +184,20 @@ export function unique() {
  */
 export function newNote() {
     return {
-        id: unique(),
-
+      id: `notes-${unique()}`,
+      title: 'Untitled Note',
+      body: '...',
+      createdAt: (new Date()).toISOString(),
+      archived: false,
+      palette: Math.floor(Math.random() * 3)
     };
+}
+
+/**
+ * @returns {Boolean} depends on the stringput
+ */
+export function booleanize(stringput) {
+    return stringput.toLowerCase() === "true";
 }
 
 
