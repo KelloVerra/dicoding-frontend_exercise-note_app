@@ -31,22 +31,33 @@ export default class SearchBar extends HTMLElement {
                 color: ${utils.css_transparent(utils.palette.primary0, 20)};
                 caret-color: ${utils.palette.primary0};
             }
-
             ${name} > #search_input:focus-visible::placeholder {
                 color: ${utils.css_transparent(utils.palette.primary0, 20)};
             }
             ${name} > #search_input:focus-visible {
                 color: ${utils.css_transparent(utils.palette.primary0, 75)};
             }
+            
+            ${name} > img {
+                position: absolute;
+                width: 1.75rem;
+                top: .5rem;
+                left: .625rem;
+                pointer-events: none;
+            }
         `;
+        this.appendChild(style);
+
+
+        const search_icon = utils.initImage(0, './assets/searchnote.svg');
+        this.appendChild(search_icon);
+
 
         const search_input = document.createElement('input');
         search_input.setAttribute('type', 'text');
         search_input.setAttribute('placeholder', 'Cari catatanmu');
         search_input.id = 'search_input';
         search_input.addEventListener('change', () => this._onSearchQueried());
-
-        this.appendChild(style);
         this.appendChild(search_input);
     }
 

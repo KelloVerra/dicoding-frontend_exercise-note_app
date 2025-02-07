@@ -200,6 +200,27 @@ export function booleanize(stringput) {
     return stringput.toLowerCase() === "true";
 }
 
+/**
+ * @param {Integer} mode - sets the mode, 0 = default img, 1 = special svg
+ * @returns {HTMLImageElement}
+ */
+export function initImage(mode, path='') {
+
+  let img = null;
+  switch(mode) {
+    case 0:
+      img = document.createElement('img');
+      img.setAttribute('src', path);
+      break;
+    case 1:
+      img = document.createElementNS('http://www.w3.org/2000/svg', 'img');
+      img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', path);
+      break;
+  }
+
+  return img;
+}
+
 
 
 
