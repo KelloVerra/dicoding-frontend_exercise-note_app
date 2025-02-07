@@ -16,8 +16,14 @@ export default class ContentHeader extends HTMLElement {
     render() {
 
         const style = document.createElement('style');
-        style.textContent = `            
-            ${name} > h1 {
+        style.textContent = `
+            ${name} > .header-wrapper {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+            }
+
+            ${name} h1 {
                 display: inline;
                 margin: 0px;
                 color: ${utils.css_transparent(utils.palette.primary0, 65)};
@@ -26,7 +32,7 @@ export default class ContentHeader extends HTMLElement {
                 letter-spacing: 5%;
             }
                 
-            ${name} > h2 {
+            ${name} h2 {
                 display: inline;
                 margin: 0px;
                 margin-inline-start: 2rem;
@@ -36,41 +42,51 @@ export default class ContentHeader extends HTMLElement {
                 letter-spacing: 5%;
             }
 
-            ${name} > p {
+            ${name} p {
                 display: inline;
                 margin: 0px;
+                height: fit-content;
                 color: ${utils.css_transparent(utils.palette.primary0, 50)};
                 font-size: 1.125rem;
                 letter-spacing: 2.5%;
             }
                 
-            ${name} > .header-content-divide {
-                background-color: ${utils.css_transparent(utils.palette.primary0, 20)};
+            ${name} hr {
+                height: 2px;
+                width: 100%;
                 margin-top: .75rem;
                 margin-bottom: 1.75rem;
-                height: 1px;
-                width: 100%;
+                border: none;
+                background-color: ${utils.css_transparent(utils.palette.primary0, 20)};
             }
         `;
         this.appendChild(style);
 
+        const header_wrapper = document.createElement('div');
+        header_wrapper.classList.add('header-wrapper');
+
+        
+        const left_header_wrapper = document.createElement('div');
+        left_header_wrapper.classList.add('left-header-wrapper');
 
         const header_name = document.createElement('h1');
         header_name.innerText = this._type === 'notes' ? 'My Notes' : 'Archived Notes';
-        this.appendChild(header_name);
-
+        left_header_wrapper.appendChild(header_name);
 
         const header_count = document.createElement('h2');
         header_count.innerText = this._type === 'notes' ? `(${utils.getNotes(false).length})` : `(${utils.getNotes(true).length})`;
-        this.appendChild(header_count);
+        left_header_wrapper.appendChild(header_count);
+
+        header_wrapper.appendChild(left_header_wrapper);
         
 
         const header_edit = document.createElement('p');
         header_edit.innerText = `Terakhir diedit ${30} yang lalu`;
-        this.appendChild(header_edit);
+        header_wrapper.appendChild(header_edit);
+        this.appendChild(header_wrapper);
 
 
-        const content_divide = document.createElement('div');
+        const content_divide = document.createElement('hr');
         content_divide.classList.add('header-content-divide');
         this.appendChild(content_divide);
     }
