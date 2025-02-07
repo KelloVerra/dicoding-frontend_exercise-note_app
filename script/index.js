@@ -7,3 +7,4 @@ import './components/ContentHeader.js';
 import './components/NoteDisplay.js';
 import './components/AddNoteItem.js';
 import './components/NoteItem.js';
+import './components/EditNoteInterface.js';
