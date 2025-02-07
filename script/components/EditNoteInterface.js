@@ -78,6 +78,7 @@ export default class EditNoteInterface extends HTMLElement {
             }
             p {
                 margin: 0px;
+                opacity: 45%;
             }
 
             #title {
@@ -86,8 +87,7 @@ export default class EditNoteInterface extends HTMLElement {
                 margin: .5rem 0px;
                 color: ${chosen_palette[0]};
                 font-size: 2.25rem;
-                font-weight: 100;
-                letter-spacing: 5%;
+                letter-spacing: 7.5%;
                 width: calc(100% - 2.5rem);
                 outline: none;
                 border: none;
@@ -97,11 +97,12 @@ export default class EditNoteInterface extends HTMLElement {
             #title::placeholder {
                 color: ${utils.css_transparent(chosen_palette[0], 20)};
             }
-            .divide {
-                background-color: ${utils.css_transparent(chosen_palette[0], 30)};
+            hr {
                 margin: 1rem 0px;
                 height: 2px;
                 width: 100%;
+                border: none;
+                background-color: ${utils.css_transparent(chosen_palette[0], 30)};
             }
             #body_wrapper {
                 position: relative;
@@ -164,8 +165,7 @@ export default class EditNoteInterface extends HTMLElement {
         card.appendChild(title_message);
 
 
-        const content_divide = document.createElement('div');
-        content_divide.classList.add('divide');
+        const content_divide = document.createElement('hr');
         card.appendChild(content_divide);
         
         

@@ -87,7 +87,6 @@ export default class ContentHeader extends HTMLElement {
 
 
         const content_divide = document.createElement('hr');
-        content_divide.classList.add('header-content-divide');
         this.appendChild(content_divide);
     }
 

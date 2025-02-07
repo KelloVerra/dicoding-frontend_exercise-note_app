@@ -50,11 +50,12 @@ export default class NoteItem extends HTMLElement {
                 font-weight: 100;
                 letter-spacing: 5%;
             }
-            .divide {
-                background-color: ${utils.css_transparent(chosen_palette[0], 30)};
+            hr {
                 margin: 1rem 0px;
                 height: 2px;
                 width: 100%;
+                border: none;
+                background-color: ${utils.css_transparent(chosen_palette[0], 30)};
             }
             #body {
                 display: block;
@@ -91,8 +92,7 @@ export default class NoteItem extends HTMLElement {
         this._shadowRoot.appendChild(header_title);
         
 
-        const content_divide = document.createElement('div');
-        content_divide.classList.add('divide');
+        const content_divide = document.createElement('hr');
         this._shadowRoot.appendChild(content_divide);
         
 
