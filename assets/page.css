@@ -39,6 +39,7 @@ header > h1 {
     margin: 1.5rem 0px 1.25rem 2rem;
 }
 search-bar {
+    position: relative;
     margin-left: auto;
     margin-right: 2rem;
 }
