@@ -2,6 +2,7 @@
 ============================= CONSTANTS =============================
 */
 export const fontfamily = '"Convergence",sans-serif';
+const NOTES_STORAGE_KEY = 'notescribe-note-storages-key-IVQ4mkX21';
 
 export const palette = {
   'primary0': '#1A00FF',
@@ -172,13 +173,6 @@ export function css_transparent(color, opacity) {
   return `color-mix(in srgb, ${color} ${opacity}%, transparent)`
 }
 
-/**
- * @param {Boolean} archived note type
- * @returns {Array} of the requested note type
- */
-export function getNotes(archived) {
-    return notes.filter(v => v.archived === archived);
-}
 
 /**
  * @returns {String} of unique id
@@ -191,14 +185,49 @@ export function unique() {
  * @returns {Object} of the note with unique id
  */
 export function newNote() {
-    return {
-      id: `notes-${unique()}`,
-      title: 'Untitled Note',
-      body: '...',
-      createdAt: (new Date()).toISOString(),
-      archived: false,
-      palette: Math.floor(Math.random() * 3)
-    };
+  return {
+    id: `notes-${unique()}`,
+    title: '',
+    body: '',
+    createdAt: (new Date()).toISOString(),
+    updatedAt: (new Date()).toISOString(),
+    archived: false,
+    palette: Math.floor(Math.random() * note_palette.length),
+  };
+}
+
+/**
+ * @param {String} id 
+ */
+function deleteNote(id) {
+  const notes = getAllNotes();
+  for (let i = 0; i < notes.length; i++) {
+    if (notes[i].id === id) {
+      delete notes[i];
+      saveNotes(notes);
+      break;
+    }
+  }
+}
+
+/**
+ * @param {String} id 
+ * @param {String} title 
+ * @param {String} body 
+ * @param {Number} palette 
+ */
+function editNote(id, title, body, palette) {
+  const notes = getAllNotes();
+  for (let i = 0; i < notes.length; i++) {
+    if (notes[i].id === id) {
+      notes[i].title = title;
+      notes[i].body = body;
+      notes[i].palette = palette;
+      notes[i].updatedAt = (new Date()).toISOString();
+      saveNotes(notes);
+      break;
+    }
+  }
 }
 
 /**
@@ -229,6 +258,39 @@ export function initImage(mode, d='') {
   return img;
 }
 
+/**
+ * Checks storage availability and initialize if possible
+ */
+export function storageReady() {
+  if (typeof Storage === null) window.alert('Storage is not available, please enable local storage');
+
+  if (!localStorage.getItem(NOTES_STORAGE_KEY)) localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify([starting_notes]));
+}
+
+/**
+ * @param {Boolean} archived
+ * @returns {Array} of specific notes from local storage
+ */
+export function getNotes(archived) {
+  return JSON.parse(localStorage.getItem(NOTES_STORAGE_KEY)).filter(v => v.archived === archived);
+}
+
+/**
+ * @returns {Array} of every notes from local storage
+ */
+function getAllNotes() {
+  return JSON.parse(localStorage.getItem(NOTES_STORAGE_KEY));
+}
+
+/**
+ * Saves data to local storage
+ * @param {Array} d the updated note data
+ */
+function saveNotes(d) {
+  if (!(typeof d === typeof [])) return;
+  return localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(d));
+}
+
 
 
 
@@ -241,6 +303,80 @@ function on_search_queried_handler() {
 }
 
 function on_load() {
-    console.log('a')
+  storageReady();
 }
 document.addEventListener('DOMContentLoaded',on_load);
+
+function rerender_note_displays() {
+  note_displays.forEach(v => {
+    v.render();
+  });
+}
+
+
+
+
+
+
+/*
+========================== INTERFACE STATE ==========================
+*/
+export const edit_note_interface = {
+  is_active: false,
+  note_item: null,
+  interface_element_instance: null,
+
+  show_interface: (id) => {
+    if (edit_note_interface.is_active) return;
+
+    const notes = getAllNotes();
+    for (let i = 0; i < notes.length; i++) {
+      if (notes[i].id === id) {
+        edit_note_interface.note_item = notes[i];
+        start_show_edit_note_interface();
+        break;
+      }
+    }
+  },
+
+  unshow_interface: (id, new_title, new_body, new_palette) => {
+    if (!edit_note_interface.is_active) return;
+
+    const notes = getAllNotes();
+    for (let i = 0; i < notes.length; i++) {
+      if (notes[i].id === id) {
+        notes[i].title = new_title;
+        notes[i].body = new_body;
+        notes[i].palette = new_palette;
+        saveNotes(notes);
+        stop_show_edit_note_interface();
+        break;
+      }
+    }
+  },
+
+};
+
+function start_show_edit_note_interface() {
+  const note_item = edit_note_interface.note_item;
+  if (!note_item) return;
+
+  edit_note_interface.is_active = true;
+  const edit_interface_element = document.createElement('edit-note-interface');
+  edit_interface_element.setAttribute('id', btoa(note_item.id));
+  edit_interface_element.setAttribute('title', btoa(note_item.title));
+  edit_interface_element.setAttribute('body', btoa(note_item.body));
+  edit_interface_element.setAttribute('palette', btoa(note_item.palette));
+  document.body.appendChild(edit_interface_element);
+  edit_note_interface.interface_element_instance = edit_interface_element;
+}
+
+function stop_show_edit_note_interface() {
+  const instance = edit_note_interface.interface_element_instance;
+  if (!instance) return;
+
+  document.body.removeChild(instance);
+  edit_note_interface.interface_element_instance = null;
+  edit_note_interface.is_active = false;
+  rerender_note_displays();
+}

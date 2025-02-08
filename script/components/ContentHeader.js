@@ -9,7 +9,8 @@ export default class ContentHeader extends HTMLElement {
         this._type = this.getAttribute('type');
     }
 
-    connectedCallback() {
+    connectedCallback() {        
+        utils.storageReady();
         this.render();
     }
 

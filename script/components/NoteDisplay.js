@@ -8,13 +8,17 @@ export default class NoteDisplay extends HTMLElement {
         super();
         this._archive = this.getAttribute('archive');
         this._shadowRoot = this.attachShadow({mode:'open'});
+        utils.note_displays.push(this);
     }
 
     connectedCallback() {
+        utils.storageReady();
         this.render();
     }
 
     render() {
+        this._shadowRoot.innerHTML = '';
+
         const style = document.createElement('style');
         style.textContent = `
             :host {
@@ -29,8 +33,7 @@ export default class NoteDisplay extends HTMLElement {
         `;
         this._shadowRoot.appendChild(style);
 
-        utils.dummynotedata.forEach((v) => {
-            if (v.archived !== utils.booleanize(this._archive)) return;
+        utils.getNotes(utils.booleanize(this._archive)).forEach((v) => {
 
             const note_item = document.createElement('note-item');
             note_item.setAttribute('data-noteid', v.id);
@@ -52,7 +55,7 @@ export default class NoteDisplay extends HTMLElement {
         
         if (utils.booleanize(this._archive)) return;
         const add_note_item = document.createElement('add-note-item');
-        this._shadowRoot.append(add_note_item);
+        this._shadowRoot.appendChild(add_note_item);
     }
 
 }
