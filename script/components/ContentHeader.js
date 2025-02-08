@@ -12,9 +12,11 @@ export default class ContentHeader extends HTMLElement {
     connectedCallback() {        
         utils.storageReady();
         this.render();
+        document.addEventListener(utils.event_keys.note_display_rerender, () => this.render());
     }
 
     render() {
+        this.innerHTML = '';
 
         const style = document.createElement('style');
         style.textContent = `

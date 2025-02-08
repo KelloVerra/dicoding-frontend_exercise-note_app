@@ -14,6 +14,7 @@ export default class EditNoteInterface extends HTMLElement {
         this._title = atob(this.getAttribute('title'));
         this._body = atob(this.getAttribute('body'));
         this._palette = parseInt(atob(this.getAttribute('palette')));
+        this._archive = utils.booleanize(atob(this.getAttribute('archive')));
         this._body_message = this._title_message = '';
 
         this.render();
@@ -61,13 +62,19 @@ export default class EditNoteInterface extends HTMLElement {
 
     _onNoteDelete(ev, root) {
         ev.preventDefault();
-        document.dispatchEvent(new CustomEvent(utils.event_keys.delete_note, {detail: this._id}));
+        document.dispatchEvent(new CustomEvent(utils.event_keys.delete_note, {detail: root._id}));
     }
 
     _onNoteAlternateColor(ev, root) {
         ev.preventDefault();
-        this._palette = (this._palette + 1) % utils.note_palette.length;
-        this.render();
+        root._palette = (root._palette + 1) % utils.note_palette.length;
+        root.render();
+    }
+
+    _onNoteArchive(ev, root) {
+        ev.preventDefault();
+        root._archive = !root._archive;
+        root.render();
     }
 
     _onNoteSave(ev, root) {
@@ -75,6 +82,7 @@ export default class EditNoteInterface extends HTMLElement {
         document.dispatchEvent(new CustomEvent(utils.event_keys.save_noteedit_interface, { 
             detail: {
                 note_id: root._id,
+                note_archive: root._archive,
                 note_new_title: root._title,
                 note_new_body: root._body,
                 note_new_palette: `${root._palette}`,
@@ -187,13 +195,14 @@ export default class EditNoteInterface extends HTMLElement {
                 right: 0;
                 bottom: 0;
                 display: flex;
-                gap: 3.25rem;
+                gap: 1rem;
                 flex-direction: column;
                 justify-content: flex-end;
                 align-items: center;
             }
 
             #card_flip {
+                margin-top: .325rem;
                 display:flex;
                 flex-direction: column;
                 justify-content: center;
@@ -207,14 +216,21 @@ export default class EditNoteInterface extends HTMLElement {
                 margin-right: auto;
                 margin-bottom: .5rem;
                 padding-right: .5rem;
+                width: 5rem;
+                height: 5rem;
                 stroke: white;
+                transition: scale 75ms ease-in;
+            }
+            #save-button:hover {
+                scale: 1.25;
             }
             #save-button:disabled {
+                scale: 1;
                 stroke: ${chosen_palette[1]};
             }
             .button_misc {
                 margin-right: .5rem;
-                padding: 1rem 1rem 1rem 1rem;
+                padding: .75rem 1rem;
                 border-radius: 15px;
                 stroke: ${utils.css_transparent(chosen_palette[0], 45)};
                 transition: background-color 100ms ease-out, scale 70ms ease-out;
@@ -276,6 +292,7 @@ export default class EditNoteInterface extends HTMLElement {
         
         const delete_button = document.createElement('button');
         delete_button.id = 'delete-button';
+        delete_button.type = 'button';
         delete_button.classList.add('button_misc');
         delete_button.addEventListener('click', (e) => this._onNoteDelete(e, this));
         const delete_icon = utils.initImage(1, `
@@ -287,6 +304,7 @@ export default class EditNoteInterface extends HTMLElement {
         
         const alternate_color_button = document.createElement('button');
         alternate_color_button.id = 'alternate_color-button';
+        alternate_color_button.type = 'button';
         alternate_color_button.classList.add('button_misc');
         alternate_color_button.addEventListener('click', (e) => this._onNoteAlternateColor(e, this));
         const alternate_color_icon = utils.initImage(1, `
@@ -295,6 +313,26 @@ export default class EditNoteInterface extends HTMLElement {
             </svg>
         `); // from ./assets/alternatenote.svg
         alternate_color_button.appendChild(alternate_color_icon);
+        
+        const archive_button = document.createElement('button');
+        archive_button.id = 'archive-button';
+        archive_button.type = 'button';
+        archive_button.classList.add('button_misc');
+        archive_button.addEventListener('click', (e) => this._onNoteArchive(e, this));
+
+        const archive_icon = this._archive ?
+        utils.initImage(1, `
+            <svg width="44" height="43" viewBox="0 0 44 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5.11111 16.6974L18.005 26.468L18.0093 26.4716C19.441 27.5252 20.1573 28.0522 20.9418 28.2559C21.6353 28.4358 22.3642 28.4358 23.0576 28.2559C23.8428 28.0521 24.5612 27.5234 25.9954 26.468L38.8889 16.6974M38.4671 14.6625L26.6469 5.16586C25.1793 3.98671 24.4448 3.39733 23.6287 3.16328C22.9086 2.95677 22.1461 2.94583 21.4206 3.13225C20.5983 3.34353 19.8485 3.9121 18.3489 5.05001L5.68012 14.663C4.69691 15.4091 4.20593 15.7823 3.85145 16.2538C3.53749 16.6714 3.30352 17.1437 3.16096 17.6468C3 18.2149 3 18.8335 3 20.0704V33.2213C3 35.5942 3 36.7812 3.46019 37.6875C3.86499 38.4848 4.51044 39.1325 5.3049 39.5387C6.2072 40 7.38899 40 9.74903 40H34.251C36.611 40 37.7911 40 38.6934 39.5387C39.4879 39.1325 40.1355 38.4843 40.5403 37.6871C41 36.7816 41 35.5968 41 33.2286V19.9311C41 18.7508 41 18.157 40.8495 17.6085C40.7153 17.1194 40.4924 16.6585 40.1957 16.2476C39.8609 15.7839 39.3974 15.41 38.4671 14.6625Z" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `) : // from ./assets/unarchivenote.svg
+        utils.initImage(1, `
+            <svg width="54" height="41" viewBox="0 0 54 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.6244 11.0769H41.3777M12.6244 11.0769C11.1333 11.0769 10.3859 11.0769 9.81642 11.3704C9.31547 11.6285 8.90847 12.0401 8.65323 12.5466C8.36305 13.1226 8.36305 13.877 8.36305 15.3849V29.3849C8.36305 32.4005 8.36305 33.9086 8.9434 35.0605C9.4539 36.0737 10.2679 36.8974 11.2698 37.4137C12.4077 38 13.898 38 16.8743 38H37.1237C40.0999 38 41.5881 38 42.726 37.4137C43.7279 36.8974 44.5456 36.0735 45.0561 35.0603C45.6359 33.9096 45.6359 32.4044 45.6359 29.3946V15.3604C45.6359 13.8689 45.6359 13.1194 45.3473 12.5466C45.092 12.0401 44.6832 11.6285 44.1822 11.3704C43.6127 11.0769 42.8687 11.0769 41.3777 11.0769M12.6244 11.0769H8.29731C6.03673 11.0769 4.9071 11.0769 4.26553 10.6773C3.40936 10.144 2.92393 9.16752 3.00976 8.15435C3.07413 7.39447 3.74699 6.47547 5.09492 4.63529C5.48478 4.10306 5.67976 3.83687 5.91839 3.63364C6.23658 3.36265 6.61415 3.17021 7.01888 3.07295C7.32242 3 7.64822 3 8.30325 3H45.6942C46.3493 3 46.6759 3 46.9795 3.07295C47.3842 3.17021 47.7616 3.36265 48.0798 3.63364C48.3185 3.83687 48.5141 4.10181 48.904 4.63405C50.2519 6.4742 50.9259 7.39432 50.9903 8.1542C51.0761 9.16737 50.5889 10.144 49.7327 10.6773C49.0912 11.0769 47.9589 11.0769 45.6983 11.0769H41.3777M21.6748 24.5385H32.3241" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `); // from ./assets/archivenote.svg
+
+        archive_button.appendChild(archive_icon);
         
         const save_button = document.createElement('button');
         save_button.type = 'submit';
@@ -309,6 +347,7 @@ export default class EditNoteInterface extends HTMLElement {
             
         option_wrapper.appendChild(delete_button);
         option_wrapper.appendChild(alternate_color_button);
+        option_wrapper.appendChild(archive_button);
         const card_flip = document.createElement('div');
         card_flip.id = "card_flip";
         card_flip.appendChild(save_button);

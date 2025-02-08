@@ -316,6 +316,7 @@ function create_edit_note_interface() {
 
   // simple data encryption
   edit_interface_element.setAttribute('id', btoa(note_item.id));
+  edit_interface_element.setAttribute('archive', btoa(note_item.archived));
   edit_interface_element.setAttribute('title', btoa(note_item.title));
   edit_interface_element.setAttribute('body', btoa(note_item.body));
   edit_interface_element.setAttribute('palette', btoa(note_item.palette));
@@ -331,6 +332,7 @@ function on_save_interface(e) {
   const new_title = e.detail.note_new_title;
   const new_body = e.detail.note_new_body;
   const new_palette = e.detail.note_new_palette;
+  const archive = e.detail.note_archive;
   const notes = getAllNotes();
 
   for (let i = 0; i < notes.length; i++) {
@@ -338,7 +340,8 @@ function on_save_interface(e) {
     if (notes[i].id === id) {
       notes[i].title = new_title;
       notes[i].body = new_body;
-      notes[i].palette = new_palette;
+      notes[i].palette = parseInt(new_palette);
+      notes[i].archived = archive;
       notes[i].updatedAt = (new Date()).toISOString();
       
       saveNotes(notes);
