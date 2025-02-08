@@ -108,7 +108,9 @@ export default class EditNoteInterface extends HTMLElement {
                 width: 100%;
                 font-family: ${utils.fontfamily};
                 background-color: ${utils.css_transparent(utils.palette.overlay, 65)};
-                color: ${chosen_palette[0]};
+                --primary-color: ${chosen_palette[0]};
+                --secondary-color: ${chosen_palette[1]};
+                --tertiary-color: ${chosen_palette[2]};
                 z-index: 1;
             }
 
@@ -119,7 +121,7 @@ export default class EditNoteInterface extends HTMLElement {
                 padding: 1.75rem;
                 width: 32rem;
                 height: 30rem;
-                background-color: ${chosen_palette[1]};
+                background-color: var(--secondary-color);
                 border-radius: 15px 15px 100px 15px;
                 font-family: ${utils.fontfamily};
                 z-index: 2;
@@ -139,7 +141,7 @@ export default class EditNoteInterface extends HTMLElement {
                 display: block;
                 padding: .5rem 1.25rem;
                 margin: .5rem 0px;
-                color: ${chosen_palette[0]};
+                color: var(--primary-color);
                 font-family: ${utils.fontfamily};
                 font-size: 2.25rem;
                 letter-spacing: 7.5%;
@@ -147,7 +149,7 @@ export default class EditNoteInterface extends HTMLElement {
                 outline: none;
                 border: none;
                 border-radius: 10px;
-                caret-color: ${chosen_palette[0]}
+                caret-color: var(--primary-color)
             }
             #title::placeholder {
                 color: ${utils.css_transparent(chosen_palette[0], 20)};
@@ -167,7 +169,7 @@ export default class EditNoteInterface extends HTMLElement {
                 display: block;
                 margin: 0px;
                 padding: 1.25rem;
-                color: ${chosen_palette[0]};
+                color: var(--primary-color);
                 font-family: ${utils.fontfamily};
                 font-size: 1.25rem;
                 font-weight: 100;
@@ -178,7 +180,7 @@ export default class EditNoteInterface extends HTMLElement {
                 outline: none;
                 border: none;
                 border-radius: 10px;
-                caret-color: ${chosen_palette[0]};
+                caret-color: var(--primary-color);
                 resize: none;
             }
             #body::placeholder {
@@ -209,7 +211,7 @@ export default class EditNoteInterface extends HTMLElement {
                 width: 6.5rem;
                 height: 6.5rem;
                 border-radius: 15px 0px 100px 0px;
-                background-color: ${chosen_palette[2]};
+                background-color: var(--tertiary-color);
             }
             #save-button {
                 margin-left: auto;
@@ -226,11 +228,11 @@ export default class EditNoteInterface extends HTMLElement {
             }
             #save-button:disabled {
                 scale: 1;
-                stroke: ${chosen_palette[1]};
+                stroke: var(--secondary-color);
             }
             .button_misc {
                 margin-right: .5rem;
-                padding: .75rem 1rem;
+                padding: .625rem .75rem;
                 border-radius: 15px;
                 stroke: ${utils.css_transparent(chosen_palette[0], 45)};
                 transition: background-color 100ms ease-out, scale 70ms ease-out;
@@ -308,10 +310,10 @@ export default class EditNoteInterface extends HTMLElement {
         alternate_color_button.classList.add('button_misc');
         alternate_color_button.addEventListener('click', (e) => this._onNoteAlternateColor(e, this));
         const alternate_color_icon = utils.initImage(1, `
-            <svg width="39" height="46" viewBox="0 0 39 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.0503 31.8889H3.92761V43M23.9485 14.1111H35.0711V3M3 16.3409C4.24726 13.257 6.33554 10.5845 9.02748 8.62717C11.7194 6.66981 14.9098 5.5056 18.2308 5.2678C21.5519 5.02999 24.871 5.72756 27.8149 7.28136C30.7588 8.83516 33.2053 11.1834 34.8801 14.0581M36 29.6602C34.7527 32.744 32.6645 35.4165 29.9725 37.3739C27.2806 39.3312 24.0934 40.494 20.7724 40.7318C17.4514 40.9696 14.1295 40.2721 11.1856 38.7183C8.24172 37.1645 5.79361 34.8167 4.11879 31.9421" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.5 8.5H15.51M10.5 7.5H10.51M7.5 11.5H7.51M12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 13.6569 19.6569 15 18 15H17.4C17.0284 15 16.8426 15 16.6871 15.0246C15.8313 15.1602 15.1602 15.8313 15.0246 16.6871C15 16.8426 15 17.0284 15 17.4V18C15 19.6569 13.6569 21 12 21ZM16 8.5C16 8.77614 15.7761 9 15.5 9C15.2239 9 15 8.77614 15 8.5C15 8.22386 15.2239 8 15.5 8C15.7761 8 16 8.22386 16 8.5ZM11 7.5C11 7.77614 10.7761 8 10.5 8C10.2239 8 10 7.77614 10 7.5C10 7.22386 10.2239 7 10.5 7C10.7761 7 11 7.22386 11 7.5ZM8 11.5C8 11.7761 7.77614 12 7.5 12C7.22386 12 7 11.7761 7 11.5C7 11.2239 7.22386 11 7.5 11C7.77614 11 8 11.2239 8 11.5Z" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-        `); // from ./assets/alternatenote.svg
+        `); // from ./assets/alternatecolornote.svg
         alternate_color_button.appendChild(alternate_color_icon);
         
         const archive_button = document.createElement('button');

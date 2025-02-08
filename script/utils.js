@@ -15,8 +15,8 @@ export const note_palette = [
   ["#A200CB", "#FDB4B5", "#FB8AB3"],
   ["#1A00FF", "#A0D3F8", "#90AEF9"],
   ["#E91B00", "#FFE5AD", "#FFC09E"],
-  ["#FFE5AD", "", ""],
-  ["#FFE5AD", "", ""],
+  ["#0088BA", "#A0F8B0", "#2CE2AF"],
+  ["#4541BE", "#CFADFF", "#AE86FE"],
 ];
 
 export const starting_notes = {
