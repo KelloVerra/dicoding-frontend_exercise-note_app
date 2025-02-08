@@ -29,8 +29,15 @@ export const starting_notes = {
 };
 export const note_displays = [];
 
-export const on_search_queried_event = new Event('ONSEARCHQUERIED');
-document.addEventListener(on_search_queried_event.type, on_search_queried_handler);
+export const event_keys = {
+  query_search: 'ONSEARCHQUERIED',
+  note_display_rerender: 'NOTEDISPLAYRERENDER',
+  show_noteedit_interface: 'SHOWINTERFACE',
+  save_noteedit_interface: 'SAVEINTERFACECHANGES',
+  hide_noteedit_interface: 'HIDEINTERFACE',
+  delete_note: 'DELETENOTE',
+  create_note: 'CREATENOTE',
+}
 
 export const dummynotedata = [
   {
@@ -155,6 +162,11 @@ export const dummynotedata = [
   },
 ];
 
+const edit_note_interface = {
+  is_active: false,
+  note_item: null,
+  interface_element_instance: null,
+};
 
 
 
@@ -196,41 +208,6 @@ function newNote() {
   };
 }
 
-/**
- * @param {String} id 
- */
-export function deleteNote(id) {
-  const notes = getAllNotes();
-  for (let i = 0; i < notes.length; i++) {
-    if (notes[i].id === id) {
-      stop_show_edit_note_interface();
-      notes.splice(i, 1);
-      saveNotes(notes);
-      rerender_note_displays();
-      break;
-    }
-  }
-}
-
-/**
- * @param {String} id 
- * @param {String} title 
- * @param {String} body 
- * @param {Number} palette 
- */
-function editNote(id, title, body, palette) {
-  const notes = getAllNotes();
-  for (let i = 0; i < notes.length; i++) {
-    if (notes[i].id === id) {
-      notes[i].title = title;
-      notes[i].body = body;
-      notes[i].palette = palette;
-      notes[i].updatedAt = (new Date()).toISOString();
-      saveNotes(notes);
-      break;
-    }
-  }
-}
 
 /**
  * @returns {Boolean} depends on the stringput
@@ -299,94 +276,108 @@ function saveNotes(d) {
 /*
 =========================== EVENT HANDLER ===========================  
 */
-function on_search_queried_handler() {
-  const query = document.querySelector('#search_input').value;
-  console.log(query)
+function on_search_queried(e) {
+  const query = e.detail.query;
 }
 
 function on_load() {
   storageReady();
 }
-document.addEventListener('DOMContentLoaded',on_load);
 
-function rerender_note_displays() {
-  note_displays.forEach(v => {
-    v.render();
-  });
-}
-
-export function createNote() {
+function on_create_note() {
   const new_note = newNote();
   const notes = getAllNotes();
   notes.push(new_note);
   saveNotes(notes);
-  edit_note_interface.show_interface(new_note.id);
+  document.dispatchEvent(new CustomEvent(event_keys.show_noteedit_interface, {detail: new_note.id}));
 }
 
+function on_show_interface(e) {
+  if (edit_note_interface.is_active) return;
 
+  const id = e.detail;
+  const notes = getAllNotes();
 
-
-
-
-/*
-========================== INTERFACE STATE ==========================
-*/
-export const edit_note_interface = {
-  is_active: false,
-  note_item: null,
-  interface_element_instance: null,
-
-  show_interface: (id) => {
-    if (edit_note_interface.is_active) return;
-
-    const notes = getAllNotes();
-    for (let i = 0; i < notes.length; i++) {
-      if (notes[i].id === id) {
-        edit_note_interface.note_item = notes[i];
-        start_show_edit_note_interface();
-        break;
-      }
+  for (let i = 0; i < notes.length; i++) {
+    if (notes[i].id === id) {
+      edit_note_interface.note_item = notes[i];
+      create_edit_note_interface();
+      break;
     }
-  },
+  }
+}
 
-  unshow_interface: (id, new_title, new_body, new_palette) => {
-    if (!edit_note_interface.is_active) return;
-
-    const notes = getAllNotes();
-    for (let i = 0; i < notes.length; i++) {
-      if (notes[i].id === id) {
-        notes[i].title = new_title;
-        notes[i].body = new_body;
-        notes[i].palette = new_palette;
-        saveNotes(notes);
-        stop_show_edit_note_interface();
-        break;
-      }
-    }
-  },
-
-};
-
-function start_show_edit_note_interface() {
+function create_edit_note_interface() {
   const note_item = edit_note_interface.note_item;
   if (!note_item) return;
 
   edit_note_interface.is_active = true;
   const edit_interface_element = document.createElement('edit-note-interface');
+
+  // simple data encryption
   edit_interface_element.setAttribute('id', btoa(note_item.id));
   edit_interface_element.setAttribute('title', btoa(note_item.title));
   edit_interface_element.setAttribute('body', btoa(note_item.body));
   edit_interface_element.setAttribute('palette', btoa(note_item.palette));
+
   document.body.appendChild(edit_interface_element);
   edit_note_interface.interface_element_instance = edit_interface_element;
 }
 
-function stop_show_edit_note_interface() {
+function on_save_interface(e) {
+  if (!edit_note_interface.is_active) return;
+
+  const id = e.detail.note_id;
+  const new_title = e.detail.note_new_title;
+  const new_body = e.detail.note_new_body;
+  const new_palette = e.detail.note_new_palette;
+  const notes = getAllNotes();
+
+  for (let i = 0; i < notes.length; i++) {
+
+    if (notes[i].id === id) {
+      notes[i].title = new_title;
+      notes[i].body = new_body;
+      notes[i].palette = new_palette;
+      notes[i].updatedAt = (new Date()).toISOString();
+      
+      saveNotes(notes);
+      document.dispatchEvent(new Event(event_keys.hide_noteedit_interface));
+      
+      break;
+    }
+    
+  }
+}
+
+function on_hide_edit_note_interface() {
   const instance = edit_note_interface.interface_element_instance;
   if (!instance) return;
 
   document.body.removeChild(instance);
   edit_note_interface.interface_element_instance = null;
   edit_note_interface.is_active = false;
-  rerender_note_displays();
+  document.dispatchEvent(new Event(event_keys.note_display_rerender));
 }
+
+function on_delete_note(e) {
+  const id = e.detail;
+  const notes = getAllNotes();
+  for (let i = 0; i < notes.length; i++) {
+    if (notes[i].id === id) {
+      notes.splice(i, 1);
+      saveNotes(notes);
+      document.dispatchEvent(new Event(event_keys.hide_noteedit_interface));
+      document.dispatchEvent(new Event(event_keys.note_display_rerender));
+      break;
+    }
+  }
+}
+
+document.addEventListener(event_keys.query_search, on_search_queried);
+document.addEventListener(event_keys.show_noteedit_interface, on_show_interface);
+document.addEventListener(event_keys.save_noteedit_interface, on_save_interface);
+document.addEventListener(event_keys.hide_noteedit_interface, on_hide_edit_note_interface);
+document.addEventListener(event_keys.delete_note, on_delete_note);
+document.addEventListener(event_keys.create_note, on_create_note);
+document.addEventListener('DOMContentLoaded',on_load);

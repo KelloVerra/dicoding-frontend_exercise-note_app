@@ -61,7 +61,7 @@ export default class EditNoteInterface extends HTMLElement {
 
     _onNoteDelete(ev, root) {
         ev.preventDefault();
-        utils.deleteNote(this._id);
+        document.dispatchEvent(new CustomEvent(utils.event_keys.delete_note, {detail: this._id}));
     }
 
     _onNoteAlternateColor(ev, root) {
@@ -72,7 +72,14 @@ export default class EditNoteInterface extends HTMLElement {
 
     _onNoteSave(ev, root) {
         ev.preventDefault();
-        utils.edit_note_interface.unshow_interface(root._id, root._title, root._body, `${root._palette}`);
+        document.dispatchEvent(new CustomEvent(utils.event_keys.save_noteedit_interface, { 
+            detail: {
+                note_id: root._id,
+                note_new_title: root._title,
+                note_new_body: root._body,
+                note_new_palette: `${root._palette}`,
+            }
+        }));
     }
 
 

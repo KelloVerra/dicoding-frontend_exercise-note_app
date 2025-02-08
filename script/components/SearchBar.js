@@ -12,7 +12,9 @@ export default class SearchBar extends HTMLElement {
     }
 
     _onSearchQueried() {
-        document.dispatchEvent(utils.on_search_queried_event);
+        document.dispatchEvent(new CustomEvent(utils.event_keys.query_search, {
+            detail: { query: this.querySelector('#search_input').value },
+        }));
     }
 
     render() {

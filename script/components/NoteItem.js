@@ -18,7 +18,7 @@ export default class NoteItem extends HTMLElement {
     }
 
     _onStartEdit(ev, note_item) {
-        utils.edit_note_interface.show_interface(note_item._id);
+        document.dispatchEvent(new CustomEvent(utils.event_keys.show_noteedit_interface, { detail: note_item._id }));
     }
 
     render() {

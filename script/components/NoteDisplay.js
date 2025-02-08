@@ -14,6 +14,7 @@ export default class NoteDisplay extends HTMLElement {
     connectedCallback() {
         utils.storageReady();
         this.render();
+        document.addEventListener(utils.event_keys.note_display_rerender, () => this.render());
     }
 
     render() {
@@ -40,12 +41,12 @@ export default class NoteDisplay extends HTMLElement {
             note_item.setAttribute('data-createdate', v.createdAt);
             note_item.setAttribute('palette', v.palette);
 
-            const note_title = document.createElement('div');
+            const note_title = document.createElement('span');
             note_title.slot = "title";
             note_title.innerText = v.title;
             note_item.appendChild(note_title);
 
-            const note_body = document.createElement('div');
+            const note_body = document.createElement('span');
             note_body.slot = "body";
             note_body.innerText = v.body;
             note_item.appendChild(note_body);
