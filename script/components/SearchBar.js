@@ -20,7 +20,7 @@ export default class SearchBar extends HTMLElement {
         const style = document.createElement('style');
         style.textContent = `
             ${name} > #search_input {
-                padding: .625rem 1rem .625rem 3rem;
+                padding: .625rem 1rem .625rem 3.75rem;
                 border: none;
                 border-radius: 8px;
                 outline: none;
@@ -42,7 +42,7 @@ export default class SearchBar extends HTMLElement {
                 position: absolute;
                 width: 1.75rem;
                 top: .5rem;
-                left: .625rem;
+                left: 1.125rem;
                 pointer-events: none;
             }
         `;

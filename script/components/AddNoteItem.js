@@ -2,7 +2,7 @@ import * as utils from '../utils.js';
 
 
 const name = 'add-note-item'
-export default class AddNoteItem extends HTMLButtonElement {
+export default class AddNoteItem extends HTMLElement {
 
     constructor() {
         super();
@@ -14,7 +14,6 @@ export default class AddNoteItem extends HTMLButtonElement {
     }
 
     render() {
-
         const style = document.createElement('style');
         style.textContent = `
             :host {
@@ -60,4 +59,4 @@ export default class AddNoteItem extends HTMLButtonElement {
 
 }
 
-customElements.define(name, AddNoteItem, {extends:"button"});
+customElements.define(name, AddNoteItem);
