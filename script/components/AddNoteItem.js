@@ -55,6 +55,8 @@ export default class AddNoteItem extends HTMLElement {
         const header_name = document.createElement('h1');
         header_name.innerText = "Note Baru";
         this._shadowRoot.appendChild(header_name);
+
+        this.addEventListener('click', utils.createNote);
     }
 
 }

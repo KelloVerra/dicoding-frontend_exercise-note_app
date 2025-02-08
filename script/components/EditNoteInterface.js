@@ -61,7 +61,7 @@ export default class EditNoteInterface extends HTMLElement {
 
     _onNoteDelete(ev, root) {
         ev.preventDefault();
-        console.log('_onNoteDelete');
+        utils.deleteNote(this._id);
     }
 
     _onNoteAlternateColor(ev, root) {

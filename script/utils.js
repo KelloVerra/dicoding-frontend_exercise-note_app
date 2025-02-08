@@ -22,10 +22,10 @@ export const note_palette = [
 export const starting_notes = {
   id: 'notes-jT-jjsyz61J8XKiI',
   title: 'Welcome to Note Scribe!',
-  body: 'Welcome to Note Scribe! This is your first note. You can archive it, delete it, alternate its color, or create new ones!',
+  body: 'Welcome to Note Scribe! This is your first note. You can archive it, delete it, alternate its color, or create new ones!\n\n\n Click here to edit this note >>>',
   createdAt: '2022-07-28T10:03:12.594Z',
   archived: false,
-  palette: 2
+  palette: 0
 };
 export const note_displays = [];
 
@@ -182,9 +182,9 @@ export function unique() {
 }
 
 /**
- * @returns {Object} of the note with unique id
+ * @returns {{id, title, body, createdAt, updatedAt, archived, palette}} of the note with unique id
  */
-export function newNote() {
+function newNote() {
   return {
     id: `notes-${unique()}`,
     title: '',
@@ -199,12 +199,14 @@ export function newNote() {
 /**
  * @param {String} id 
  */
-function deleteNote(id) {
+export function deleteNote(id) {
   const notes = getAllNotes();
   for (let i = 0; i < notes.length; i++) {
     if (notes[i].id === id) {
-      delete notes[i];
+      stop_show_edit_note_interface();
+      notes.splice(i, 1);
       saveNotes(notes);
+      rerender_note_displays();
       break;
     }
   }
@@ -311,6 +313,14 @@ function rerender_note_displays() {
   note_displays.forEach(v => {
     v.render();
   });
+}
+
+export function createNote() {
+  const new_note = newNote();
+  const notes = getAllNotes();
+  notes.push(new_note);
+  saveNotes(notes);
+  edit_note_interface.show_interface(new_note.id);
 }
 
 
