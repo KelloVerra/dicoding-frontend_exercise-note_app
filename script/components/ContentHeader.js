@@ -11,11 +11,11 @@ export default class ContentHeader extends HTMLElement {
 
     connectedCallback() {        
         utils.storageReady();
-        this.render();
-        document.addEventListener(utils.event_keys.note_display_rerender, () => this.render());
+        this.render(new Date().getTime());
+        document.addEventListener(utils.event_keys.note_display_header_rerender, (e) => this.render(e.detail.latest_edited_noteitem));
     }
 
-    render() {
+    render(latest_edited_noteitem_time) {
         this.innerHTML = '';
 
         const style = document.createElement('style');
@@ -84,7 +84,7 @@ export default class ContentHeader extends HTMLElement {
         
 
         const header_edit = document.createElement('p');
-        header_edit.innerText = `Terakhir diedit ${30} yang lalu`;
+        header_edit.innerText = `Terakhir diedit ${utils.formatEditDate2IdealTimeRange(new Date(latest_edited_noteitem_time).toISOString())}`;
         header_wrapper.appendChild(header_edit);
         this.appendChild(header_wrapper);
 

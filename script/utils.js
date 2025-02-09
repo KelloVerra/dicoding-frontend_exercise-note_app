@@ -15,7 +15,7 @@ export const note_palette = [
   ["#A200CB", "#FDB4B5", "#FB8AB3"],
   ["#1A00FF", "#A0D3F8", "#90AEF9"],
   ["#E91B00", "#FFE5AD", "#FFC09E"],
-  ["#0088BA", "#A0F8B0", "#2CE2AF"],
+  ["#0088BA", "#A0F8B0", "#43E6CD"],
   ["#4541BE", "#CFADFF", "#AE86FE"],
 ];
 
@@ -24,6 +24,7 @@ export const starting_notes = {
   title: 'Welcome to Note Scribe!',
   body: 'Welcome to Note Scribe! This is your first note. You can archive it, delete it, alternate its color, or create new ones!\n\n\n Click here to edit this note >>>',
   createdAt: '2022-07-28T10:03:12.594Z',
+  updatedAt: '2022-07-28T10:03:12.594Z',
   archived: false,
   palette: 0
 };
@@ -32,6 +33,7 @@ export const note_displays = [];
 export const event_keys = {
   query_search: 'ONSEARCHQUERIED',
   note_display_rerender: 'NOTEDISPLAYRERENDER',
+  note_display_header_rerender: 'NOTEDISPLAYHEADERRERENDER',
   show_noteedit_interface: 'SHOWINTERFACE',
   save_noteedit_interface: 'SAVEINTERFACECHANGES',
   hide_noteedit_interface: 'HIDEINTERFACE',
@@ -268,6 +270,54 @@ function getAllNotes() {
 function saveNotes(d) {
   if (!(typeof d === typeof [])) return;
   return localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(d));
+}
+
+/**
+ * Saving numbers by determining ideal timeframe eg. 60 minutes => 1 hour, 48 hour => 2 days
+ * @param {Date} date 
+ * @returns {[amount_range:int, unit_range:String]}
+ */
+function getIdealTimeRange(date) {
+  const past_time_ms = date.getTime();
+  const now_time_ms = (new Date()).getTime();
+  const range_time_min = (now_time_ms-past_time_ms) / 1000 / 60;
+  let range_time = 0;
+  let unit_time = '';
+
+  if (Math.floor(range_time_min) < 60) {                          // -- minute
+    range_time = Math.floor(range_time_min);
+    unit_time = 'menit';
+  }
+  else if (Math.floor(range_time_min / 60) < 24) {                // -- hour
+    range_time = Math.floor(range_time_min / 60);
+    unit_time = 'jam';
+  }
+  else if (Math.floor(range_time_min / 24) < 30) {                // -- day
+    range_time = Math.floor(range_time_min / 60 / 24);
+    unit_time = 'hari';
+  }
+  else if (Math.floor(range_time_min / 30) < 12) {                // -- month
+    range_time = Math.floor(range_time_min / 60 / 24 / 30);
+    unit_time = 'bulan';
+  }
+  else {                                                          // -- year
+    range_time = Math.floor(range_time_min / 60 / 24 / 30 / 12);
+    unit_time = 'tahun';
+  }
+  
+  return [range_time, unit_time];
+}
+
+/**
+ * Transforms ISO string into a display of when the last time it was edited
+ * @param {string} ISOtime 
+ * @returns {String}
+ */
+export function formatEditDate2IdealTimeRange(ISOtime) {
+  const up_date = new Date(ISOtime);
+  const [amount_range, unit_range] = getIdealTimeRange(up_date);
+
+  return `${amount_range} ${unit_range} yang lalu`;
 }
 
 

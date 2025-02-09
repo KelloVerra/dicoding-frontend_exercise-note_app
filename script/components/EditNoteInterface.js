@@ -129,6 +129,7 @@ export default class EditNoteInterface extends HTMLElement {
             p {
                 margin: 0px;
                 opacity: 45%;
+                color: var(--primary-color);
             }
 
             button {

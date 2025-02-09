@@ -33,12 +33,20 @@ export default class NoteDisplay extends HTMLElement {
             }
         `;
         this._shadowRoot.appendChild(style);
+        // get the most latest edited note item
+        let latest_edited_noteitem = 0;
 
-        utils.getNotes(utils.booleanize(this._archive)).forEach((v) => {
+        // sort by the latest edited first
+        const sorted_notes = utils.getNotes(utils.booleanize(this._archive)).sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+
+        // filter query searched notes
+        const searched_notes = sorted_notes; // TODO : SEARCH
+        
+        searched_notes.forEach((v) => {
 
             const note_item = document.createElement('note-item');
             note_item.setAttribute('data-noteid', v.id);
-            note_item.setAttribute('data-createdate', v.createdAt);
+            note_item.setAttribute('data-editeddate', v.updatedAt);
             note_item.setAttribute('palette', v.palette);
 
             const note_title = document.createElement('span');
@@ -52,11 +60,19 @@ export default class NoteDisplay extends HTMLElement {
             note_item.appendChild(note_body);
             
             this._shadowRoot.appendChild(note_item)
+
+            const editeddate_ms = new Date(v.updatedAt).getTime();
+            latest_edited_noteitem = latest_edited_noteitem < editeddate_ms ? editeddate_ms : latest_edited_noteitem;
         });
         
         if (utils.booleanize(this._archive)) return;
         const add_note_item = document.createElement('add-note-item');
         this._shadowRoot.appendChild(add_note_item);
+
+        // send content header the latest edited note item
+        document.dispatchEvent(new CustomEvent(utils.event_keys.note_display_header_rerender, { detail: {
+            latest_edited_noteitem: latest_edited_noteitem,
+        }}));
     }
 
 }

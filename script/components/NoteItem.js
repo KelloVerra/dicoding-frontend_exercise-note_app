@@ -12,7 +12,7 @@ export default class NoteItem extends HTMLElement {
     connectedCallback() {
         this._palette = this.getAttribute('palette');
         this._archived = this.getAttribute('archived');
-        this._createdate = this.dataset.createdate;
+        this._editeddate = this.dataset.editeddate;
         this._id = this.dataset.noteid;
         this.render();
     }
@@ -101,7 +101,7 @@ export default class NoteItem extends HTMLElement {
 
         
         const header_date = document.createElement('h2');
-        header_date.innerText = this._createdate;
+        header_date.innerText = `${new Date(this._editeddate).toDateString()}\xa0\xa0•\xa0\xa0${utils.formatEditDate2IdealTimeRange(this._editeddate)}`; // \xa0 is non breakable space (replacement to &nbsp;)
         this._shadowRoot.appendChild(header_date);
         
         
