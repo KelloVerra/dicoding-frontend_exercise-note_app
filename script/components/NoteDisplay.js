@@ -13,12 +13,31 @@ export default class NoteDisplay extends HTMLElement {
 
     connectedCallback() {
         utils.storageReady();
+        this._search_query = '';
         this.render();
         document.addEventListener(utils.event_keys.note_display_rerender, () => this.render());
+        document.addEventListener(utils.event_keys.query_search, (e) => this._onSearchQueried(e.detail.query, this));
+        document.addEventListener(utils.event_keys.empty_search, () => this._onSearchEmptied(this));
+    }
+
+    _onSearchQueried(query, root) {
+        root._search_query = query;
+        root.render();
+    }
+
+    _onSearchemptied(root) {
+        root._search_query = '';
+        root.render();
     }
 
     render() {
         this._shadowRoot.innerHTML = '';
+
+        if (!utils.booleanize(this._archive)) {
+            const add_note_item = document.createElement('add-note-item');
+            this._shadowRoot.appendChild(add_note_item);
+        }
+
 
         const style = document.createElement('style');
         style.textContent = `
@@ -33,6 +52,7 @@ export default class NoteDisplay extends HTMLElement {
             }
         `;
         this._shadowRoot.appendChild(style);
+
         // get the most latest edited note item
         let latest_edited_noteitem = 0;
 
@@ -40,7 +60,15 @@ export default class NoteDisplay extends HTMLElement {
         const sorted_notes = utils.getNotes(utils.booleanize(this._archive)).sort((a,b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
         // filter query searched notes
-        const searched_notes = sorted_notes; // TODO : SEARCH
+        const searched_notes = sorted_notes.filter(v => {
+            if (this._search_query === '') return true;
+            
+            let condition = false;
+            const search_regex = new RegExp(this._search_query, 'ig');
+            if (search_regex.test(v.title)) condition = true;
+            if (search_regex.test(v.body)) condition = true;
+            return condition;
+        });
         
         searched_notes.forEach((v) => {
 
@@ -64,14 +92,13 @@ export default class NoteDisplay extends HTMLElement {
             const editeddate_ms = new Date(v.updatedAt).getTime();
             latest_edited_noteitem = latest_edited_noteitem < editeddate_ms ? editeddate_ms : latest_edited_noteitem;
         });
-        
-        if (utils.booleanize(this._archive)) return;
-        const add_note_item = document.createElement('add-note-item');
-        this._shadowRoot.appendChild(add_note_item);
+
 
         // send content header the latest edited note item
         document.dispatchEvent(new CustomEvent(utils.event_keys.note_display_header_rerender, { detail: {
-            latest_edited_noteitem: latest_edited_noteitem,
+            type: utils.booleanize(this._archive) ? 'archived' : 'notes',
+            latest_edited_noteitem: latest_edited_noteitem === 0 ? new Date().toISOString() : latest_edited_noteitem,
+            found_items: searched_notes.length,
         }}));
     }
 

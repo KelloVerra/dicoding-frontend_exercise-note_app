@@ -11,11 +11,20 @@ export default class ContentHeader extends HTMLElement {
 
     connectedCallback() {        
         utils.storageReady();
-        this.render(new Date().getTime());
-        document.addEventListener(utils.event_keys.note_display_header_rerender, (e) => this.render(e.detail.latest_edited_noteitem));
+
+        this.render(
+            this._type,
+            new Date().getTime(), 
+            this._type === 'notes' ? utils.getNotes(false).length : utils.getNotes(true).length
+        );
+
+
+        document.addEventListener(utils.event_keys.note_display_header_rerender, (e) => this.render(e.detail.type, e.detail.latest_edited_noteitem, e.detail.found_items));
     }
 
-    render(latest_edited_noteitem_time) {
+    render(render_type, latest_edited_noteitem_time, note_count) {
+        if (render_type !== this._type) return;
+        
         this.innerHTML = '';
 
         const style = document.createElement('style');
@@ -73,11 +82,11 @@ export default class ContentHeader extends HTMLElement {
         left_header_wrapper.classList.add('left-header-wrapper');
 
         const header_name = document.createElement('h1');
-        header_name.innerText = this._type === 'notes' ? 'My Notes' : 'Archived Notes';
+        header_name.innerText = render_type === 'notes' ? 'My Notes' : 'Archived Notes';
         left_header_wrapper.appendChild(header_name);
 
         const header_count = document.createElement('h2');
-        header_count.innerText = this._type === 'notes' ? `(${utils.getNotes(false).length})` : `(${utils.getNotes(true).length})`;
+        header_count.innerText = `(${note_count})`;
         left_header_wrapper.appendChild(header_count);
 
         header_wrapper.appendChild(left_header_wrapper);

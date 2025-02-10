@@ -326,10 +326,6 @@ export function formatEditDate2IdealTimeRange(ISOtime) {
 /*
 =========================== EVENT HANDLER ===========================  
 */
-function on_search_queried(e) {
-  const query = e.detail.query;
-}
-
 function on_load() {
   storageReady();
 }
@@ -427,7 +423,6 @@ function on_delete_note(e) {
   }
 }
 
-document.addEventListener(event_keys.query_search, on_search_queried);
 document.addEventListener(event_keys.show_noteedit_interface, on_show_interface);
 document.addEventListener(event_keys.save_noteedit_interface, on_save_interface);
 document.addEventListener(event_keys.hide_noteedit_interface, on_hide_edit_note_interface);
