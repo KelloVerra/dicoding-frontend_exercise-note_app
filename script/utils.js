@@ -313,7 +313,7 @@ export function formatEditDate2IdealTimeRange(ISOtime) {
   const up_date = new Date(ISOtime);
   const [amount_range, unit_range] = getIdealTimeRange(up_date);
 
-  return `${amount_range} ${unit_range} yang lalu`;
+  return (amount_range === 0 && unit_range === 'menit') ? `baru saja` : `${amount_range} ${unit_range} yang lalu`;
 }
 
 

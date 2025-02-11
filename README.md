@@ -5,7 +5,7 @@
 
 ## Student's Notes
 
-[Bukti originalitas, <i>Desain Figma</i> dengan layout yang saya buat.](https://www.figma.com/design/niV6KOkshy7d7NRxrehOx9/I-Wayan-Widhyadana-Sadhu-Gunawan's-Dicoding-Web-Exercise-Designs?node-id=2021-2)
+[Bukti originalitas, <i>Desain Figma</i> dengan layout yang saya buat.](https://www.figma.com/design/niV6KOkshy7d7NRxrehOx9/IWWSG's-Dicoding-Web-Exercise-Designs?node-id=2021-2&p=f&t=uZVm5zdAwyZAUXIL-0)
 
 
 <br>
@@ -21,6 +21,7 @@
 |------|------|----------|
 |Font  |[Convergence](https://fonts.google.com/specimen/Convergence/license) |Google Fonts|
 |Iconset|[Coolicons](https://coolicons.cool/) |Coolicons|
+|Icon|[SVGRepo](https://www.svgrepo.com) |SVGRepo|
 
 <br>
 <br>
