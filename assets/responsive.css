@@ -1,3 +1,46 @@
-@media screen and (max-width: 1048px) {
+@media screen and (max-width: 850px) {
+    header {
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+    header > h1 {
+        font-size: 2.5rem;
+        letter-spacing: 10%;
+        margin: .25rem 0px .625rem 0px;
+    }
+    search-bar {
+        margin-right: auto;
+        padding-bottom: .5rem;
+    }
+
     
+    main {
+        display: flex;
+        flex-flow: column nowrap;
+        height: fit-content;
+    }    
+    main > #main-content {
+        padding: 0px 1rem 4rem;
+        border-radius: 0px;
+    }
+    
+    footer {
+        order: 1;
+        height: fit-content;
+        padding: 0px;
+        margin: 0px;
+    }
+    footer > p {
+        margin: .25rem 0px 0px;
+        font-size: .625rem;
+        text-align: center;
+        writing-mode: horizontal-tb;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    footer > p {
+        padding: 0px .5rem;
+        font-size: .475rem;
+    }
 }

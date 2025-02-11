@@ -47,6 +47,17 @@ export default class SearchBar extends HTMLElement {
                 left: 1.125rem;
                 pointer-events: none;
             }
+
+            @media screen and (max-width: ${utils.responsive_thresholds[2]}) {  
+                ${name} > #search_input {
+                    padding: .75rem 1rem .825rem 3.75rem;
+                    font-size: 1rem;
+                    letter-spacing: 6.25%;
+                    color: ${utils.css_transparent(utils.palette.primary0, 20)};
+                    caret-color: ${utils.palette.primary0};
+                }
+            }
+            
         `;
         this.appendChild(style);
 

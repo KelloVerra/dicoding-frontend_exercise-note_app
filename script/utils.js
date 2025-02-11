@@ -28,7 +28,12 @@ export const starting_notes = {
   archived: false,
   palette: 0
 };
-export const note_displays = [];
+
+export const responsive_thresholds = [
+  '850px',
+  '600px',
+  '400px'
+]
 
 export const event_keys = {
   query_search: 'ONSEARCHQUERIED',
@@ -278,29 +283,29 @@ function saveNotes(d) {
  * @returns {[amount_range:int, unit_range:String]}
  */
 function getIdealTimeRange(date) {
-  const past_time_ms = date.getTime();
+  const past_time_ms = parseInt(date.getTime());
   const now_time_ms = (new Date()).getTime();
   const range_time_min = (now_time_ms-past_time_ms) / 1000 / 60;
   let range_time = 0;
   let unit_time = '';
 
-  if (Math.floor(range_time_min) < 60) {                          // -- minute
+  if (Math.floor(range_time_min) < 60) {                      // -- minute
     range_time = Math.floor(range_time_min);
     unit_time = 'menit';
   }
-  else if (Math.floor(range_time_min / 60) < 24) {                // -- hour
+  else if (Math.floor(range_time_min / 60) < 24) {            // -- hour
     range_time = Math.floor(range_time_min / 60);
     unit_time = 'jam';
   }
-  else if (Math.floor(range_time_min / 24) < 30) {                // -- day
+  else if (Math.floor(range_time_min / 60 / 24) < 30) {       // -- day
     range_time = Math.floor(range_time_min / 60 / 24);
     unit_time = 'hari';
   }
-  else if (Math.floor(range_time_min / 30) < 12) {                // -- month
+  else if (Math.floor(range_time_min / 60 / 24 / 30) < 12) {  // -- month
     range_time = Math.floor(range_time_min / 60 / 24 / 30);
     unit_time = 'bulan';
   }
-  else {                                                          // -- year
+  else {                                                      // -- year
     range_time = Math.floor(range_time_min / 60 / 24 / 30 / 12);
     unit_time = 'tahun';
   }

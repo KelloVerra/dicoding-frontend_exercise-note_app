@@ -19,6 +19,7 @@ export default class AddNoteItem extends HTMLElement {
             :host {
                 display: flex;
                 flex-direction: column;
+                justify-self: center;
                 justify-content: center;
                 margin: 2.5rem 0px;
                 padding: 1rem;

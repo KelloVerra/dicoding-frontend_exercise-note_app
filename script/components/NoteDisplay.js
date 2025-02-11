@@ -8,7 +8,6 @@ export default class NoteDisplay extends HTMLElement {
         super();
         this._archive = this.getAttribute('archive');
         this._shadowRoot = this.attachShadow({mode:'open'});
-        utils.note_displays.push(this);
     }
 
     connectedCallback() {
@@ -49,6 +48,14 @@ export default class NoteDisplay extends HTMLElement {
                 gap: 2.25rem;
                 padding: 1rem;
                 width: 100%;
+            }
+
+            @media screen and (max-width: ${utils.responsive_thresholds[2]}) {
+                :host {
+                    justify-items: start;
+                    padding: 0px;
+                    gap: 1.75rem;
+                }
             }
         `;
         this._shadowRoot.appendChild(style);

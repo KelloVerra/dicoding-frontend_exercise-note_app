@@ -204,7 +204,7 @@ export default class EditNoteInterface extends HTMLElement {
                 align-items: center;
             }
 
-            #card_flip {
+            #card-flip {
                 margin-top: .325rem;
                 display:flex;
                 flex-direction: column;
@@ -244,6 +244,74 @@ export default class EditNoteInterface extends HTMLElement {
             }
             .button_misc:active {
                 scale: .95;
+            }
+
+            @media screen and (max-width: ${utils.responsive_thresholds[1]}) {
+                #card {
+                    width: 20rem;
+                    height: 23rem;
+                    padding: 1.25rem;
+                }      
+                p {
+                    font-size: .85rem;
+                }
+
+                #title {
+                    font-size: 1.75rem;
+                    margin: .125rem 0px;
+                }
+                
+                hr {
+                    margin: 1rem 0px;
+                }
+                
+                #body_wrapper {
+                    width: 16.5rem;
+                }
+
+                #body {
+                    font-size: .8rem;
+                    height: 9.125rem;
+                    scrollbar-style: thin;
+                }
+                    
+                #body + p {
+                    margin-top: .125rem;
+                }
+
+                #option-wrapper {
+                    gap: .125rem;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                }
+                #card-flip {
+                    width: 4.5rem;
+                    height: 4.5rem;
+                    translate: -5px -5px;
+                    margin-left: 1.25rem;
+                    border-radius: 15px 0px 100px 0px;
+                }
+                #save-button {
+                    scale: .625;
+                    width: 4rem;
+                }
+                #save-button:hover {
+                    scale: .75;
+                }
+                #save-button:disabled {
+                    scale: .625;
+                }
+
+                .button_misc {
+                    scale: .75;
+                }
+                .button_misc:hover {
+                    scale: .8;
+                }
+                .button_misc:active {
+                    scale: .7;
+                }
             }
         `;
         this._shadowRoot.appendChild(style);
@@ -352,7 +420,7 @@ export default class EditNoteInterface extends HTMLElement {
         option_wrapper.appendChild(alternate_color_button);
         option_wrapper.appendChild(archive_button);
         const card_flip = document.createElement('div');
-        card_flip.id = "card_flip";
+        card_flip.id = "card-flip";
         card_flip.appendChild(save_button);
         option_wrapper.appendChild(card_flip);
 

@@ -96,6 +96,31 @@ export default class NoteItem extends HTMLElement {
                 width: 100%;
                 height: 100%;
             }
+
+            @media screen and (max-width: ${utils.responsive_thresholds[2]}) {
+                :host {
+                    margin: 0px;
+                    width: 17rem;
+                    height: 15rem;
+                    background-color: ${chosen_palette[1]};
+                    border-radius: 15px 15px 45px 15px;
+                    font-family: ${utils.fontfamily};
+                    box-shadow: 10px 10px 50px rgba(148, 146, 184, 20%);
+                }
+                h2 {
+                    font-size: .75rem;
+                    letter-spacing: 3.5%;
+                }
+                #title {
+                    font-size: 1.5rem;
+                    letter-spacing: 4.5%;
+                }
+                #body {
+                    font-size: .875rem;
+                    line-height: 120%;
+                    letter-spacing: 3%;
+                }
+            }
         `;
         this._shadowRoot.appendChild(style);
 

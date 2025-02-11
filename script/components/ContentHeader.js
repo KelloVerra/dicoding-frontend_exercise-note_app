@@ -71,6 +71,27 @@ export default class ContentHeader extends HTMLElement {
                 border: none;
                 background-color: ${utils.css_transparent(utils.palette.primary0, 20)};
             }
+
+            @media screen and (max-width: ${utils.responsive_thresholds[0]}) {
+                ${name} h1 {
+                    font-size: 2rem;
+                    letter-spacing: 4%;
+                }
+                    
+                ${name} h2 {
+                    margin-inline-start: 1rem;
+                    font-size: 1rem;
+                    letter-spacing: 3%;
+                }
+
+                ${name} p {
+                    font-size: 1rem;
+                    letter-spacing: 3%;
+                    max-width: 10rem;
+                    text-align: right;
+                    translate: 0px -.5rem;
+                }
+            }
         `;
         this.appendChild(style);
 
