@@ -81,8 +81,8 @@ export default class NoteDisplay extends HTMLElement {
 
             const note_item = document.createElement('note-item');
             note_item.setAttribute('data-noteid', v.id);
-            note_item.setAttribute('data-editeddate', v.updatedAt);
-            note_item.setAttribute('palette', v.palette);
+            note_item.setAttribute('data-editeddate', typeof v.updatedAt === 'string' ? v.updatedAt : v.createdAt);
+            note_item.setAttribute('palette', typeof v.palette === 'number' ? v.palette : Math.floor(Math.random() * utils.note_palette.length));
 
             const note_title = document.createElement('span');
             note_title.slot = "title";

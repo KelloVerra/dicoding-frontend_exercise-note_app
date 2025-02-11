@@ -23,8 +23,8 @@ export const starting_notes = {
   id: 'notes-jT-jjsyz61J8XKiI',
   title: 'Welcome to Note Scribe!',
   body: 'Welcome to Note Scribe! This is your first note. You can archive it, delete it, alternate its color, or create new ones!\n\n\n Click here to edit this note >>>',
-  createdAt: '2022-07-28T10:03:12.594Z',
-  updatedAt: '2022-07-28T10:03:12.594Z',
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
   archived: false,
   palette: 0
 };
@@ -46,14 +46,13 @@ export const event_keys = {
   create_note: 'CREATENOTE',
 }
 
-export const dummynotedata = [
+export const dummyNotesData = [
   {
     id: 'notes-jT-jjsyz61J8XKiI',
     title: 'Welcome to Notes, Dimas!',
     body: 'Welcome to Notes! This is your first note. You can archive it, delete it, or create new ones.',
     createdAt: '2022-07-28T10:03:12.594Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-aB-cdefg12345',
@@ -61,7 +60,6 @@ export const dummynotedata = [
     body: 'Discuss project updates and assign tasks for the upcoming week.',
     createdAt: '2022-08-05T15:30:00.000Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-XyZ-789012345',
@@ -69,7 +67,6 @@ export const dummynotedata = [
     body: 'Milk, eggs, bread, fruits, and vegetables.',
     createdAt: '2022-08-10T08:45:23.120Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-1a-2b3c4d5e6f',
@@ -77,7 +74,6 @@ export const dummynotedata = [
     body: 'Read two books per month, exercise three times a week, learn a new language.',
     createdAt: '2022-08-15T18:12:55.789Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-LMN-456789',
@@ -85,7 +81,6 @@ export const dummynotedata = [
     body: 'Ingredients: ground beef, tomatoes, onions, garlic, pasta. Steps:...',
     createdAt: '2022-08-20T12:30:40.200Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-QwErTyUiOp',
@@ -93,7 +88,6 @@ export const dummynotedata = [
     body: 'Monday: Cardio, Tuesday: Upper body, Wednesday: Rest, Thursday: Lower body, Friday: Cardio.',
     createdAt: '2022-08-25T09:15:17.890Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-abcdef-987654',
@@ -101,7 +95,6 @@ export const dummynotedata = [
     body: "1. 'The Alchemist' by Paulo Coelho\n2. '1984' by George Orwell\n3. 'To Kill a Mockingbird' by Harper Lee",
     createdAt: '2022-09-01T14:20:05.321Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-zyxwv-54321',
@@ -109,7 +102,6 @@ export const dummynotedata = [
     body: 'Write down three positive things that happened today and one thing to improve tomorrow.',
     createdAt: '2022-09-07T20:40:30.150Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-poiuyt-987654',
@@ -117,7 +109,6 @@ export const dummynotedata = [
     body: '1. Paris, France\n2. Kyoto, Japan\n3. Santorini, Greece\n4. New York City, USA',
     createdAt: '2022-09-15T11:55:44.678Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-asdfgh-123456',
@@ -125,7 +116,6 @@ export const dummynotedata = [
     body: '1. Build a personal website\n2. Create a mobile app\n3. Contribute to an open-source project',
     createdAt: '2022-09-20T17:10:12.987Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-5678-abcd-efgh',
@@ -133,7 +123,6 @@ export const dummynotedata = [
     body: 'Complete project tasks by the deadline on October 1st.',
     createdAt: '2022-09-28T14:00:00.000Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-9876-wxyz-1234',
@@ -141,7 +130,6 @@ export const dummynotedata = [
     body: 'Schedule a routine health checkup with the doctor.',
     createdAt: '2022-10-05T09:30:45.600Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-qwerty-8765-4321',
@@ -149,7 +137,6 @@ export const dummynotedata = [
     body: '1. Create a monthly budget\n2. Save 20% of income\n3. Invest in a retirement fund.',
     createdAt: '2022-10-12T12:15:30.890Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-98765-54321-12345',
@@ -157,7 +144,6 @@ export const dummynotedata = [
     body: 'Research and plan for the upcoming holiday destination.',
     createdAt: '2022-10-20T16:45:00.000Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
   {
     id: 'notes-1234-abcd-5678',
@@ -165,7 +151,6 @@ export const dummynotedata = [
     body: 'Practice Spanish vocabulary for 30 minutes every day.',
     createdAt: '2022-10-28T08:00:20.120Z',
     archived: false,
-    palette: Math.floor(Math.random() * 3)
   },
 ];
 
@@ -340,18 +325,24 @@ function on_create_note() {
   const notes = getAllNotes();
   notes.push(new_note);
   saveNotes(notes);
-  document.dispatchEvent(new CustomEvent(event_keys.show_noteedit_interface, {detail: new_note.id}));
+  document.dispatchEvent(new CustomEvent(event_keys.show_noteedit_interface, {detail: {
+    id: new_note.id,
+    pseudo_palette: 0
+  }}));
 }
 
 function on_show_interface(e) {
   if (edit_note_interface.is_active) return;
 
-  const id = e.detail;
+  const id = e.detail.id;
   const notes = getAllNotes();
 
   for (let i = 0; i < notes.length; i++) {
     if (notes[i].id === id) {
       edit_note_interface.note_item = notes[i];
+      if (!notes[i].palette) edit_note_interface.note_item.palette = parseInt(e.detail.pseudo_palette);
+      if (!notes[i].updatedAt) edit_note_interface.note_item.updatedAt = new Date().toISOString();
+
       create_edit_note_interface();
       break;
     }
