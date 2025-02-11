@@ -12,8 +12,27 @@ export default class SearchBar extends HTMLElement {
     }
 
     _onSearchQueried() {
+
+        // query sanitation before regex matching
+        const query = (this.querySelector('#search_input').value)
+                        .replaceAll('\\','')
+                        .replaceAll('\n','')
+                        .replaceAll('*','\\*')
+                        .replaceAll('+','\\+')
+                        .replaceAll('{','\\{')
+                        .replaceAll('}','\\}')
+                        .replaceAll('[','\\[')
+                        .replaceAll(']','\\]')
+                        .replaceAll('?','\\?')
+                        .replaceAll('|','\\|')
+                        .replaceAll('.','\\.')
+                        .replaceAll('$','\\$')
+                        .replaceAll('^','\\^')
+                        .replaceAll(')','\\)')
+                        .replaceAll('(','\\(')
+                        .replaceAll(':','\\:');
         document.dispatchEvent(new CustomEvent(utils.event_keys.query_search, {
-            detail: { query: this.querySelector('#search_input').value },
+            detail: { query: query },
         }));
     }
 

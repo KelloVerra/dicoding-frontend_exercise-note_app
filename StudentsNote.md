@@ -14,6 +14,8 @@
 
 6. Memiliki interface/antarmuka form untuk mengedit/menambahkan note baru
 
+7. Search query memiliki metode sanitasi agar tidak terjadi error maupun serangan *malicious*
+
 <br>
 
 # Kondisi Sebelum Run

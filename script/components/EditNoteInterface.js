@@ -272,7 +272,7 @@ export default class EditNoteInterface extends HTMLElement {
                 #body {
                     font-size: .8rem;
                     height: 9.125rem;
-                    scrollbar-style: thin;
+                    scrollbar-width: thin;
                 }
                     
                 #body + p {
