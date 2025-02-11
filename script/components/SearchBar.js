@@ -49,14 +49,17 @@ export default class SearchBar extends HTMLElement {
                 font-size: 1.325rem;
                 letter-spacing: 7.5%;
                 background-color: ${utils.palette.secondary1};
-                color: ${utils.css_transparent(utils.palette.primary0, 20)};
+                color: ${utils.css_transparent(utils.palette.primary0, 65)};
                 caret-color: ${utils.palette.primary0};
+            }
+            ${name} > #search_input::placeholder {
+                color: ${utils.css_transparent(utils.palette.primary0, 20)};
             }
             ${name} > #search_input:focus-visible::placeholder {
                 color: ${utils.css_transparent(utils.palette.primary0, 20)};
             }
             ${name} > #search_input:focus-visible {
-                color: ${utils.css_transparent(utils.palette.primary0, 75)};
+                color: ${utils.css_transparent(utils.palette.primary0, 100)};
             }
             
             ${name} > img {
