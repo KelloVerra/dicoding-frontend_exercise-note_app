@@ -235,7 +235,13 @@ export function initImage(mode, d='') {
 export function storageReady() {
   if (typeof Storage === null) window.alert('Storage is not available, please enable local storage');
 
-  if (!localStorage.getItem(NOTES_STORAGE_KEY)) localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify([starting_notes]));
+  try {
+    JSON.parse(localStorage.getItem(NOTES_STORAGE_KEY));
+  } catch (e) {
+    localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify([starting_notes]));
+  }
+
+  if (!localStorage.getItem(NOTES_STORAGE_KEY) || localStorage.getItem(NOTES_STORAGE_KEY) === '[]') localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify([starting_notes]));
 }
 
 /**
@@ -318,6 +324,14 @@ export function formatEditDate2IdealTimeRange(ISOtime) {
 */
 function on_load() {
   storageReady();
+
+  // Remove content-empty notes edgecase
+  localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(
+    JSON.parse(localStorage.getItem(NOTES_STORAGE_KEY)).filter( noteitem => {
+      return (noteitem.title !== '' || noteitem.body !== '');
+    })
+  ));
+  document.dispatchEvent(new Event(event_keys.note_display_rerender));
 }
 
 function on_create_note() {
