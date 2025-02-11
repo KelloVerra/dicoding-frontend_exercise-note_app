@@ -1,4 +1,4 @@
-# Hi! 🚧 Its under construction 🚧
+# 📝 A minimalist Note Taking / Manager / Helper 📝
 ### My early module project submission ✏️
 
 <br>
